@@ -1,0 +1,33 @@
+
+.home {
+    background-image: url('../assets/images/home.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .home .banner_title {
+    font-size: 100px;
+    color: #000;
+    padding-top: 100px;
+    padding-left: 10px;
+  }
+  
+  .home .banner_text {
+    font-size: 25px;
+    padding-left: 50px;
+    color: #000;
+    margin: 20px 0;
+  }
+  
+  .home .banner_text2 {
+    font-size: 17px;
+    padding-left: 50px;
+    color: #000;
+    margin: 20px 0;
+  }
+  
+  .home .layout_padding {
+    padding-top: 90px; /* Adjust as needed */
+  }
+  

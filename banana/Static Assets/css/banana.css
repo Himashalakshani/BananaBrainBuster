@@ -1,0 +1,196 @@
+/* Body styling */
+body {
+    background-image: url(../assets/images/banana.jpeg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Main game container */
+#game-container {
+    max-width: 800px;
+    max-height: 500px;
+    margin: 50px auto;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;  /* Ensure the score is positioned correctly inside the container */
+}
+
+/* Game content section */
+#game-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* Vertically center */
+    align-items: center;      /* Horizontally center */
+    height: 90vh;
+    text-align: center;
+}
+
+/* Game title */
+#game-content h1 {
+    margin-bottom: 0px;
+}
+
+/* Image styling */
+#image {
+    max-width: 80%;
+    height: auto;
+    margin-top: 20px;
+}
+
+/* Input container */
+#input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px; /* Adds space between the input and button */
+}
+
+/* Input field styling */
+#input {
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    margin-right: 10px;
+    width: 100px;
+}
+
+/* Button styling */
+.button {
+    padding: 15px 20px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: none;
+    border-radius: 8px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    margin: 10px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+/* Button hover effect */
+.button:hover {
+    background: linear-gradient(to bottom right, #ff9966, #ff5e62);
+    transform: scale(1.05);
+}
+
+/* Button focus effect */
+.button:focus {
+    outline: none;
+}
+
+/* Scoreboard container */
+#score-board {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ad1616;
+    z-index: 10;  /* Ensure score is above other elements */
+}
+
+/* Score styling */
+#score-value {
+    font-size: 25px;  /* Make the score value larger */
+    font-weight: bold;
+    color: #ad1616;
+}
+
+/* Timer container */
+#timer-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ad1616;
+}
+
+/* Timer label styling */
+#timer-label {
+    margin-right: 10px;
+}
+
+/* Submit button styling */
+#submit-btn {
+    width: 100px;
+    height: 40px;
+    background-color: #f0ad4e;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* Submit button hover effect */
+#submit-btn:hover {
+    background-color: #e07b31;
+}
+
+/* Game over screen styling */
+#game-over-screen {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 20px;
+    display: none;
+    z-index: 9999;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Game over header styling */
+#game-over-screen h2 {
+    margin-bottom: 20px;
+    font-size: 32px;
+    color: #d9534f;
+}
+
+/* Game over score styling */
+#game-over-score {
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Game over button styling */
+#game-over-screen .button {
+    margin-top: 20px;
+    width: 200px;
+}
+
+/* First game over button margin */
+#game-over-screen .button:first-child {
+    margin-right: 20px;
+}
+
+/* Overlay background */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+    backdrop-filter: blur(8px);
+}

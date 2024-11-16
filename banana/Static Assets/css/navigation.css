@@ -1,0 +1,93 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.header {
+    font-size: 40px;
+    font-weight: bold;
+    color: black;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 90px; /* Fixed height */
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: slight shadow */
+}
+
+.nav-left {
+    margin-left: 0; /* Ensure the header stays on the left */
+}
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    margin-left: auto; /* Pushes the links to the right */
+    margin-right: 30px; /* You can adjust this if you want extra space on the right side */
+}
+
+nav ul li {
+    margin-left: 30px; /* Adjust space between links */
+}
+
+nav ul li a {
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+    font-size: 25px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    padding: 10px;
+    position: relative; /* For the effect */
+    transition: color 0.3s, transform 0.3s ease; /* Smooth transition for color and transformation */
+}
+
+nav ul li a:hover {
+    color: rgb(125, 125, 235); /* Change color on hover */
+    transform: translateY(-5px); /* Move the link slightly upwards */
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: rgb(125, 125, 235); /* Underline effect */
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+}
+
+nav ul li a:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+
+/* Initially hide the dropdown content */
+.dropdown .logout-button {
+    display: none;
+    margin-top: 5px; /* Optional: space between name and logout */
+}
+
+/* Show the logout button on hover over the .dropdown div */
+.dropdown:hover .logout-button {
+    display: block;
+    background: rgb(125,125,235); /* Optional styling */
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
