@@ -14,6 +14,16 @@
     
   </head>
   <body>
+     <!-- Score and Timer in the top-right corner -->
+     <div id="score-timer" class="score-timer">
+        <div id="score">
+            Score: <span id="score-value">0</span>
+        </div>
+        
+        <div id="timer">
+            Time: <span id="time-value">1:00</span>
+        </div>
+    </div>
     
     <div class="game">
       <div class="card" data-image="../Static%20Assets/assets/images/pokemon1.png">
@@ -70,6 +80,15 @@
         <div class="back"></div>
       </div>
     </div>
+    <div id="game-over-screen" style="display: none;">
+        <h2>Game Over</h2>
+        <p id="game-over-message"></p>
+        <p>Your Score: <span id="game-over-score">0</span></p>
+        <button id="new-game-btn" class="button">New Game</button>
+        <button id="quit-btn" class="button">Quit Game</button>
+    </div>
+
+    <div id="overlay" style="display: none;"></div>
     <script src="../Static Assets/js/bananamatch.js"></script>
   </body>
 </html>

@@ -19,7 +19,33 @@
     justify-content: center;
     gap: 1rem;
   }
+  #score-timer {
+    position: absolute;
+    top: 130px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.6); /* Slightly darker background */
+    color: white;
+    padding: 15px 20px;  /* Increase padding */
+    border-radius: 8px;  /* Slightly rounder corners */
+    font-family: Arial, sans-serif;
+    font-size: 24px; /* Bigger font size */
+    font-weight: bold; /* Make the text bolder */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
+  }
   
+  #score,
+  #timer {
+    margin-bottom: 8px; /* Slightly more space between score and timer */
+  }
+  
+  /* Optional: style individual elements (score and timer) */
+  #score {
+    font-size: 24px; /* Increase score font size */
+  }
+  
+  #timer {
+    font-size: 24px; /* Increase timer font size */
+  }
   .card {
     width: 150px;
     height: 150px;
@@ -54,3 +80,72 @@
   .card.flip {
     transform: rotateY(180deg);
   }
+
+  /* Submit button styling */
+#submit-btn {
+  width: 100px;
+  height: 40px;
+  background-color: #f0ad4e;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* Submit button hover effect */
+#submit-btn:hover {
+  background-color: #e07b31;
+}
+
+/* Game over screen styling */
+#game-over-screen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 20px;
+  display: none;
+  z-index: 9999;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Game over header styling */
+#game-over-screen h2 {
+  margin-bottom: 20px;
+  font-size: 32px;
+  color: #d9534f;
+}
+
+/* Game over score styling */
+#game-over-score {
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Game over button styling */
+#game-over-screen .button {
+  margin-top: 20px;
+  width: 200px;
+}
+
+/* First game over button margin */
+#game-over-screen .button:first-child {
+  margin-right: 20px;
+}
+
+/* Overlay background */
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+  backdrop-filter: blur(8px);
+}
