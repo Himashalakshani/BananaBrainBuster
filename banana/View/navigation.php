@@ -27,7 +27,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <li><a href="home.php" class="center">Home</a></li>
             <li><a href="instructions.php" class="upward">Instructions </a></li>
             <li><a href="leader.php" class="forward">Leader Board</a></li>
-            <li><a href="profile.php" class="forward2">Profile</a></li>
+            <li><a href="#" class="forward2">Profile</a></li>
 
             <?php if (isset($_SESSION['username'])): ?>
                 <li class="dropdown">

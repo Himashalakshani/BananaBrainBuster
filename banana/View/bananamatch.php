@@ -89,6 +89,6 @@
     </div>
 
     <div id="overlay" style="display: none;"></div>
-    <script src="../Static Assets/js/bananamatch.js"></script>
+    <script src="../Static Assets/js/bananamach.js"></script>
   </body>
 </html>
