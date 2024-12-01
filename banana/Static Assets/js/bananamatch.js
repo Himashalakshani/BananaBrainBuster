@@ -173,7 +173,7 @@ function endGame() {
 
   // Add event listeners for "Play Again" and "New Game"
   document.getElementById("play-again-btn").addEventListener("click", () => {
-    window.location.href = "bananablitz.php"; // Redirect to Banana Blitz
+    window.location.href = "lifeline.php"; // Redirect to lifeline game
   });
 
   document.getElementById("new-game-btn").addEventListener("click", () => {
