@@ -1,0 +1,66 @@
+
+.container {
+    width: 90vw; /* Changed to take 90% of the viewport width */
+    max-width: 900px;
+    margin: 80px auto; /* Adjusted margin-top to move it down */
+    padding: 40px;
+    background-color: #ffffff00;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    pointer-events: auto;
+}
+
+
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../assets/images/profile.jpg');
+    background-size: cover; /* Optional: Adjust as needed */
+    background-position: center; /* Optional: Adjust as needed */
+    background-repeat: no-repeat;
+}
+
+
+h1 {
+    text-align: center;
+}
+.form-group {
+    margin-bottom: 20px;
+}
+label {
+    font-weight: bold;
+}
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    background-color: rgba(255, 255, 255, 0.5); 
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    padding: 20px;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.5); 
+}
+button {
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.5); 
+    color: rgba(0, 0, 0, 0.5); 
+    border: none;
+    border-radius: 25px;
+    padding: 20px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+.btn-group {
+    text-align: center;
+    margin-top: 20px;
+}
