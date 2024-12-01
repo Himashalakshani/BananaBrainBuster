@@ -8,7 +8,7 @@ include 'navigation.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Life Line Game</title>
-    <link rel="stylesheet" href="../Static Assets/css/bananablitz.css">
+    <link rel="stylesheet" href="../Static Assets/css/lifeline.css">
     <link rel="stylesheet" href="../Static Assets/css/navigation.css">
 </head>
 

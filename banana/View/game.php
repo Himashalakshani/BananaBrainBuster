@@ -55,7 +55,7 @@
                 <p>Tackle tougher maths problems to challenge your skills!</p>
             </div>
             <div class="selector">
-                <button onclick="redirectToPage('bananablitz.php')">go with this!</button>
+                <button onclick="redirectToPage('lifeline.php')">go with this!</button>
             </div>
         </div>
 

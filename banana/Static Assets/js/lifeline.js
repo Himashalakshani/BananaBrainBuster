@@ -4,76 +4,78 @@ let score = 0;
 let timerInterval;
 let correctSolution;
 let remainingTime = 20;
-let consecutiveCorrectAnswers = 0;  // Track consecutive correct answers
-let successfulGames = 0;  // Track the number of consecutive successful games
+let consecutiveCorrectAnswers = 0;
+let successfulGames = 0;
 
 const correctSound = new Audio('/banana/banana/Static%20Assets/assets/audio/correct.wav');
 const wrongSound = new Audio('/banana/banana/Static%20Assets/assets/audio/wrong.mp3');
 const dangerSound = new Audio('/banana/banana/Static%20Assets/assets/audio/danger-sound.mp3');
+const timeUpSound = new Audio('/banana/banana/Static%20Assets/assets/audio/time-up-sound.mp3');
 
-// Timer Update function
+// Preload sounds to ensure they are ready
+correctSound.load();
+wrongSound.load();
+dangerSound.load();
+timeUpSound.load();
+
+// Timer update function
 function updateTimer() {
     const timeSpan = document.getElementById("time-value");
-
-    // Check if time is up
     if (remainingTime <= 0) {
+        timeUpSound.play();  // Play time up sound
         endGame("Time's up! You took too long to answer.", "timesUp");
         return;
     }
-
-    // Update timer display
     const minutes = Math.floor(remainingTime / 60);
     const seconds = remainingTime % 60;
     timeSpan.textContent = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-
-    // Play danger sound continuously when the timer is running
-    if (!dangerSound.paused && !gameEnded) {
-        dangerSound.play();  // Play sound while the game is ongoing
-    }
-
-    // Decrement remaining time every second
     remainingTime -= 1;
 }
 
 // Start the game and timer
 async function startGame() {
-    // Reset game variables
     gameEnded = false;
     remainingTime = 20;
 
-    // Play the danger sound immediately when the game starts
-    dangerSound.loop = true;  // Set the sound to loop
-    dangerSound.play();  // Start the sound right away
+    // Preload sounds
+    correctSound.load();
+    wrongSound.load();
+    dangerSound.load();
+    timeUpSound.load();
 
-    // Fetch a new question from the API
+    // Reset danger sound to not loop
+    dangerSound.loop = false;
+    dangerSound.currentTime = 0; // Reset danger sound before playing
+
     await fetchNewQuestion();
-
-    // Clear any existing interval to avoid multiple timers
     if (timerInterval) clearInterval(timerInterval);
     timerInterval = setInterval(updateTimer, 1000);
 }
 
-// Fetch a new question from the API
+// Fetch a new question
 async function fetchNewQuestion() {
     try {
         const response = await fetch('../Controller/proxy.php');
         if (!response.ok) throw new Error("Failed to fetch question");
-
         const data = await response.json();
-
-        // Update the image and solution
         document.getElementById("question-image").src = data.question;
         correctSolution = parseInt(data.solution);
+
+        // Wait for 1 second before starting the danger sound
+        setTimeout(() => {
+            dangerSound.currentTime = 0; // Reset the sound to start from the beginning
+            dangerSound.play();  // Start the danger sound
+            dangerSound.loop = true;  // Loop the danger sound
+        }, 1000);  // Delay of 1 second
+
     } catch (error) {
-        console.error("Error fetching the question:", error);
-        endGame("An error occurred while fetching the question. Please try again later.", "error");
+        endGame("An error occurred while fetching the question. Please try again.", "error");
     }
 }
 
-// Handle input and score
+// Handle input
 function handleInput() {
     if (gameEnded) return;
-
     const inputField = document.getElementById("input");
     const userInput = parseInt(inputField.value);
 
@@ -82,129 +84,99 @@ function handleInput() {
         return;
     }
 
-    // Stop the timer and any currently playing sounds
-    clearInterval(timerInterval);
-    dangerSound.pause();
-    dangerSound.currentTime = 0; // Reset the danger sound to the beginning
-
+    clearInterval(timerInterval);  // Stop timer when input is received
     const timeTaken = 20 - remainingTime;
 
     if (userInput === correctSolution) {
         const bonusScore = calculateBonusScore(timeTaken);
         score += bonusScore;
-        console.log("Correct! Bonus Score:", bonusScore, "Total Score:", score);
-
-        correctSound.play();
-
-        // Track consecutive correct answers for Life Line
+        document.getElementById("score-value").textContent = score;
         consecutiveCorrectAnswers++;
-
-        // Only show the popup after 5 consecutive correct answers
-        if (consecutiveCorrectAnswers === 5) {
-            showLifeLinePopup();  // Show Life Line pop-up
-            consecutiveCorrectAnswers = 0;  // Reset consecutive correct answers after showing the popup
-        } else {
-            // Update the score display in the HTML
-            document.getElementById("score-value").textContent = score;
-            inputField.value = '';
-            startGame(); // Fetch a new question and reset the timer
-        }
-
-        // Track the successful games (consecutive)
         successfulGames++;
 
-        // Only show the "You won!" message after 5 consecutive successful games
+        correctSound.play();  // Play correct sound
+        dangerSound.pause();  // Stop danger sound
+
         if (successfulGames === 5) {
             endGame("You won! You have earned a new Life Line!", "won");
-            successfulGames = 0;  // Reset successful games counter after displaying the message
+        } else if (consecutiveCorrectAnswers === 5) {
+            showLifeLinePopup();
+        } else {
+            startGame();
         }
     } else {
-        wrongSound.play();
+        wrongSound.play();  // Play wrong sound
+        dangerSound.pause();  // Stop danger sound
         endGame("Incorrect answer! Game over.", "loss");
-
-        // Reset the successful games counter on failure
         successfulGames = 0;
     }
 }
 
-// Calculate bonus score based on time taken
+// Calculate bonus score
 function calculateBonusScore(timeTaken) {
-    if (timeTaken <= 20 && timeTaken > 10) {
-        return 1;
-    } else if (timeTaken <= 10 && timeTaken > 5) {
-        return 4;
-    } else if (timeTaken <= 5) {
-        return 5;
-    } else {
-        return 0;
-    }
+    if (timeTaken <= 5) return 5;
+    if (timeTaken <= 10) return 4;
+    if (timeTaken <= 20) return 1;
+    return 0;
 }
 
-// End the game with different scenarios: loss, time's up, won
+// End game
 function endGame(message, resultType) {
     clearInterval(timerInterval);
     gameEnded = true;
-
-    // Stop the danger sound when the game ends
-    dangerSound.pause();
-    dangerSound.currentTime = 0; // Reset the danger sound to the beginning
-
-    let resultMessage = "";
-
-    if (resultType === "loss") {
-        resultMessage = "You lost! Incorrect answer.";
-    } else if (resultType === "timesUp") {
-        resultMessage = "Time's up! You took too long to answer.";
-    } else if (resultType === "won") {
-        resultMessage = "You won! You have earned a new Life Line!";
+    if (resultType !== "timesUp") {
+        timeUpSound.pause();  // Stop the time up sound when game ends before time runs out
     }
+    
+    // Stop the danger sound after 1 second delay when the game ends
+    setTimeout(() => {
+        dangerSound.pause();  // Stop danger sound from looping
+    }, 1000);  // Delay of 1 second before stopping the sound
 
-    // Display the game-over screen with the result message
-    document.getElementById("game-over-message").textContent = resultMessage;
-    document.getElementById("game-over-score").textContent = score;
-    document.getElementById("game-over-screen").style.display = "block";
-    document.getElementById("overlay").style.display = "block";
+    if (resultType === "won") {
+        showLifeLinePopup();
+    } else {
+        const overlay = document.getElementById("overlay");
+        const gameOverScreen = document.getElementById("game-over-screen");
+        document.getElementById("game-over-message").textContent = message;
+        document.getElementById("game-over-score").textContent = score;
+        overlay.style.display = "flex";
+        gameOverScreen.style.display = "block";
+    }
 }
 
-// New Game Button Function
+// Show Life Line Popup
+function showLifeLinePopup() {
+    const overlay = document.getElementById("overlay");
+    const popup = document.getElementById("life-line-popup");
+    overlay.style.display = "flex";
+    popup.style.display = "block";
+
+    document.getElementById("continue-btn").onclick = () => {
+        window.location.href = "bananamatch.php";
+    };
+    document.getElementById("quit-btn").onclick = () => {
+        window.location.href = "home.php";
+    };
+}
+
+// Restart game
 function newGame() {
-    score = 0; // Reset score for new game
-    consecutiveCorrectAnswers = 0; // Reset consecutive correct answers
-    successfulGames = 0; // Reset consecutive successful games counter
+    score = 0;
+    consecutiveCorrectAnswers = 0;
+    successfulGames = 0;
     document.getElementById("score-value").textContent = score;
-    document.getElementById("game-over-screen").style.display = "none";
     document.getElementById("overlay").style.display = "none";
+    document.getElementById("game-over-screen").style.display = "none";
     startGame();
 }
 
-// Quit Game Button Function
+// Quit game
 function quitGame() {
     window.location.href = "home.php";
 }
 
-// Show the Life Line pop-up when 5 consecutive correct answers are given
-function showLifeLinePopup() {
-    const overlay = document.getElementById("overlay");
-    const popup = document.createElement("div");
-    popup.classList.add("life-line-popup");
-
-    // Add event listeners for the buttons
-    document.getElementById("overlay").style.display = "block";
-    overlay.appendChild(popup);
-
-    document.getElementById("continue-btn").addEventListener("click", () => {
-        overlay.style.display = "none";
-        popup.remove();
-        consecutiveCorrectAnswers = 0; // Reset consecutive correct answers
-        startGame(); // Continue the game
-    });
-
-    document.getElementById("quit-btn").addEventListener("click", () => {
-        window.location.href = "home.php"; // Quit the game and redirect
-    });
-}
-
-// Initialize the game once the DOM is fully loaded
+// Initialize
 document.addEventListener("DOMContentLoaded", () => {
     startGame();
     document.getElementById("submit-btn").addEventListener("click", handleInput);
