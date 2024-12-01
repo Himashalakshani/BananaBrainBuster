@@ -1,13 +1,13 @@
-
 // Game Variables
 let cards = document.querySelectorAll(".card");
 let cardArray = [...cards];
-let flippedCards = []; // Track flipped cards
-let lockCard = false; // Prevent flipping when two cards are being checked
-let matchedPairs = 0; // Track the number of matched pairs
-let score = 0; // Track the score
-let remainingTime = 60; // Timer in seconds
-let timerInterval; // Timer interval for countdown
+let flippedCards = [];
+let lockCard = false;
+let matchedPairs = 0;
+let currentRoundScore = 0; // Score for the current round
+let totalScore = 0; // Cumulative score across rounds
+let remainingTime = 60;
+let timerInterval;
 
 // Load sound effects
 const correctSound = new Audio('../Static%20Assets/assets/audio/correct.wav');
@@ -24,7 +24,7 @@ function shuffle() {
 
 // Flip a card
 function flipCard() {
-  if (lockCard || this.classList.contains("flip")) return; // Prevent flipping the same card
+  if (lockCard || this.classList.contains("flip")) return;
 
   this.classList.add("flip");
   flippedCards.push(this);
@@ -40,16 +40,17 @@ function checkForMatch() {
   let isMatch = firstCard.dataset.image === secondCard.dataset.image;
 
   if (isMatch) {
-    playCorrectSound(); // Play correct sound
-    matchedPairs++; // Increment matched pairs
+    playCorrectSound();
+    matchedPairs++;
     disableCards();
-    if (matchedPairs === 6) { // Check if all 6 pairs (12 cards) are matched
+
+    if (matchedPairs === 6) {
       setTimeout(() => {
-        showGameWonScreen(); // Show the "Game Won" screen
-      }, 500); // Small delay to allow sound
+        roundComplete();
+      }, 500);
     }
   } else {
-    playWrongSound(); // Play wrong sound
+    playWrongSound();
     unflipCards();
   }
 }
@@ -74,8 +75,8 @@ function unflipCards() {
 
 // Reset the game board
 function resetBoard() {
-  flippedCards = []; // Clear flipped cards
-  lockCard = false; // Unlock card flipping
+  flippedCards = [];
+  lockCard = false;
 }
 
 // Play correct sound
@@ -92,38 +93,35 @@ function playWrongSound() {
 function startGame() {
   shuffle();
   cards.forEach((card) => {
-    card.classList.remove("flip"); // Make sure all cards are hidden when starting
+    card.classList.remove("flip");
     card.addEventListener("click", flipCard);
   });
 
-  // Reset variables
   matchedPairs = 0;
-  score = 0;
+  currentRoundScore = 0;
   remainingTime = 60;
 
-  document.getElementById("score-value").textContent = score;
+  document.getElementById("score-value").textContent = totalScore;
   document.getElementById("time-value").textContent = "1:00";
 
-  // Start the timer
   startTimer();
 }
 
 // Start the timer
 function startTimer() {
-  clearInterval(timerInterval); // Clear any existing interval to avoid duplication
-  timerInterval = setInterval(updateTimer, 1000); // Update timer every second
+  clearInterval(timerInterval);
+  timerInterval = setInterval(updateTimer, 1000);
 }
 
 // Update the timer
 function updateTimer() {
   const timeSpan = document.getElementById("time-value");
   if (remainingTime <= 0) {
-    clearInterval(timerInterval); // Stop the timer
-    endGame("Time's up! Game over."); // Trigger game over if time runs out
+    clearInterval(timerInterval);
+    endGame();
     return;
   }
 
-  // Format the time as mm:ss
   const minutes = Math.floor(remainingTime / 60);
   const seconds = remainingTime % 60;
   timeSpan.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
@@ -131,65 +129,63 @@ function updateTimer() {
   remainingTime--;
 }
 
-// Calculate final score based on remaining time
-function calculateFinalScore() {
-  const timeRemaining = remainingTime; // Remaining time when game ends
+// Calculate the score for the current round
+function calculateRoundScore() {
+  const timeRemaining = remainingTime;
 
-  // Assign score based on remaining time
   if (timeRemaining > 30) {
-    score = 5;  
+    currentRoundScore = 5;
   } else if (timeRemaining > 20) {
-    score = 4; 
+    currentRoundScore = 4;
   } else if (timeRemaining > 10) {
-    score = 3; 
+    currentRoundScore = 3;
   } else if (timeRemaining > 0) {
-    score = 1; 
+    currentRoundScore = 1;
   } else {
-    score = 0; 
+    currentRoundScore = 0;
   }
 
-  updateScore(); // Update score display
+  totalScore += currentRoundScore; // Update cumulative score
+  updateScoreDisplay();
 }
 
-// Show the game won screen
-function showGameWonScreen() {
-  calculateFinalScore(); // Calculate score based on remaining time
-  clearInterval(timerInterval); // Stop the timer
-  document.getElementById("game-over-message").textContent = "You won the game!";
-  document.getElementById("game-over-screen").style.display = "block";
-  document.getElementById("overlay").style.display = "block";
-  document.getElementById("game-over-score").textContent = `Final Score: ${score}`;
+// Update the score display
+function updateScoreDisplay() {
+  document.getElementById("score-value").textContent = totalScore;
 }
 
-// Show the game over screen with a "Time's Up!" message
-function endGame(message) {
-  calculateFinalScore(); // Calculate score based on remaining time
-  document.getElementById("game-over-message").textContent = message;
+// Handle the completion of a round
+function roundComplete() {
+  calculateRoundScore();
+  clearInterval(timerInterval);
+
+  // Automatically restart the game for the next round
+  startGame();
+}
+
+// End the game
+function endGame() {
+  calculateRoundScore(); // Ensure the final score is updated
+  document.getElementById("game-over-message").textContent = "Time's up! Game Over.";
   document.getElementById("game-over-screen").style.display = "block";
   document.getElementById("overlay").style.display = "block";
-  document.getElementById("game-over-score").textContent = `Final Score: ${score}`;
+  document.getElementById("game-over-score").textContent = `Total Score: ${totalScore}`;
 
-  // Flip all cards back to hide them when game ends
-  cards.forEach((card) => {
-    card.classList.remove("flip");
+  // Add event listeners for "Play Again" and "New Game"
+  document.getElementById("play-again-btn").addEventListener("click", () => {
+    window.location.href = "bananablitz.php"; // Redirect to Banana Blitz
+  });
+
+  document.getElementById("new-game-btn").addEventListener("click", () => {
+    location.reload(); // Refresh the page to reset the game
   });
 }
 
-// Update the score display on the screen
-function updateScore() {
-  document.getElementById("score-value").textContent = score;
-}
-
-// New Game Button Function
-function newGame() {
-  clearInterval(timerInterval); // Clear any existing timer
-  document.getElementById("game-over-screen").style.display = "none";
-  document.getElementById("overlay").style.display = "none";
-  startGame(); // Start a new game and shuffle the cards
-}
-
-// Start the game when the DOM is loaded
+// Add event listeners for buttons
 document.addEventListener("DOMContentLoaded", () => {
   startGame();
-  document.getElementById("new-game-btn").addEventListener("click", newGame);
+  document.getElementById("new-game-btn").addEventListener("click", startGame);
+  document.getElementById("quit-btn").addEventListener("click", () => {
+    window.location.href = "home.php";
+  });
 });
