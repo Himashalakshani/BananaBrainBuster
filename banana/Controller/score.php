@@ -10,17 +10,26 @@ if (session_status() == PHP_SESSION_NONE) {
 // Get the username from the session if available
 $username = isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Guest';
 
-// Get score from POST data
+// Get the score from POST data
 $score = isset($_POST['score']) ? intval($_POST['score']) : 0;
 
-// Insert score into database
-$sql = "INSERT INTO scores (username, score) VALUES ('$username', '$score')";
-
-if ($conn->query($sql) === TRUE) {
-    echo "Score stored successfully";
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+// Validate score
+if ($score < 0) {
+    echo "Invalid score";
+    exit;
 }
 
+// Prepare and execute the SQL statement to prevent SQL injection
+$sql = $conn->prepare("INSERT INTO scores (username, score) VALUES (?, ?)");
+$sql->bind_param("si", $username, $score);
+
+if ($sql->execute()) {
+    echo "Score stored successfully";
+} else {
+    echo "Error: " . $conn->error;
+}
+
+$sql->close(); // Close the prepared statement
 $conn->close(); // Close the database connection
+
 ?>

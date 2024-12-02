@@ -4,8 +4,8 @@ let cardArray = [...cards];
 let flippedCards = [];
 let lockCard = false;
 let matchedPairs = 0;
-let currentRoundScore = 0; // Score for the current round
-let totalScore = 0; // Cumulative score across rounds
+let currentRoundScore = 0;
+let totalScore = parseInt(localStorage.getItem('score')) || 0;
 let remainingTime = 60;
 let timerInterval;
 
@@ -89,9 +89,29 @@ function playWrongSound() {
   wrongSound.play();
 }
 
+// Send score to the database
+function saveScoreToDatabase(score) {
+  fetch('../controller/score.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: `score=${score}`,
+  })
+    .then((response) => response.text())
+    .then((data) => {
+      console.log(data); // Display success or error message from PHP
+    })
+    .catch((error) => {
+      console.error('Error saving score:', error);
+    });
+}
+
 // Start the game
 function startGame() {
   shuffle();
+
+  // Remove all flips
   cards.forEach((card) => {
     card.classList.remove("flip");
     card.addEventListener("click", flipCard);
@@ -100,6 +120,9 @@ function startGame() {
   matchedPairs = 0;
   currentRoundScore = 0;
   remainingTime = 60;
+
+  // Reset the score from localStorage or set to 0
+  totalScore = parseInt(localStorage.getItem('score')) || 0;
 
   document.getElementById("score-value").textContent = totalScore;
   document.getElementById("time-value").textContent = "1:00";
@@ -147,6 +170,12 @@ function calculateRoundScore() {
 
   totalScore += currentRoundScore; // Update cumulative score
   updateScoreDisplay();
+
+  // Store the updated total score in localStorage
+  localStorage.setItem('score', totalScore);
+
+  // Send the total score to the database
+  saveScoreToDatabase(totalScore);
 }
 
 // Update the score display
@@ -173,19 +202,50 @@ function endGame() {
 
   // Add event listeners for "Play Again" and "New Game"
   document.getElementById("play-again-btn").addEventListener("click", () => {
-    window.location.href = "lifeline.php"; // Redirect to lifeline game
+    window.location.href = "lifeline.php"; // Redirect to lifeline
   });
 
   document.getElementById("new-game-btn").addEventListener("click", () => {
-    location.reload(); // Refresh the page to reset the game
+    resetScore(); // Reset game state and score
+    window.location.href = "bananamatch.php";  // Redirect to the new BananaMatch game page
   });
+}
+
+// Reset the total score
+function resetScore() {
+  totalScore = 0;
+  localStorage.setItem('score', totalScore); // Clear the score in localStorage
+  updateScoreDisplay(); // Update the UI
+}
+
+// Reset the game state
+function resetGame() {
+  matchedPairs = 0;
+  remainingTime = 60;
+  resetBoard(); // Reset flipped cards and other states
+
+  // Remove all event listeners before starting a new game
+  cards.forEach((card) => {
+    card.removeEventListener("click", flipCard);
+  });
+
+  // Shuffle and reset cards
+  shuffle();
 }
 
 // Add event listeners for buttons
 document.addEventListener("DOMContentLoaded", () => {
   startGame();
-  document.getElementById("new-game-btn").addEventListener("click", startGame);
+
+  // New Game button resets the score and redirects to a fresh BananaMatch game page
+  document.getElementById("new-game-btn").addEventListener("click", () => {
+    resetScore(); // Reset score to 0
+    window.location.href = "bananamatch.php";  // Redirect to the new banana game page
+  });
+
+  // Quit button resets the score and navigates back to the home page
   document.getElementById("quit-btn").addEventListener("click", () => {
-    window.location.href = "home.php";
+    resetScore(); // Reset score to 0
+    window.location.href = "home.php"; // Redirect to home page
   });
 });
