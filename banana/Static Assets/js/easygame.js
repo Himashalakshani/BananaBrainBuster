@@ -3,11 +3,11 @@ let startTime;
 let gameEnded = false;
 let score = 0;
 let timerInterval;
-let matchedPairs = 0; // Track the number of matched pairs
-const totalPairs = 5; // Total number of pairs to match in the game
+let correctSolution; // Store the correct solution from the API
 
 const correctSound = new Audio('/banana/banana/Static%20Assets/assets/audio/correct.wav');
 const wrongSound = new Audio('/banana/banana/Static%20Assets/assets/audio/wrong.mp3');
+
 
 // Timer Update function
 function updateTimer() {
@@ -19,105 +19,92 @@ function updateTimer() {
 
     // End the game if the user takes more than 60 seconds
     if (timeTaken > 60) {
-        endGame("Time's up! You took too long to finish the game.");
+        endGame("Time's up! You took too long to answer.");
     }
 }
 
 // Start the game and timer
-function startGame() {
+async function startGame() {
     // Reset game variables
     gameEnded = false;
-    matchedPairs = 0; // Reset matched pairs counter
-    score = 0; // Reset score
-    document.getElementById("score-value").textContent = score; // Reset score display
+
+    // Fetch a new question from the API
+    await fetchNewQuestion();
 
     // Start the timer
     startTime = Date.now();
-
+    
     // Clear any existing interval to avoid multiple timers
     if (timerInterval) clearInterval(timerInterval);
     timerInterval = setInterval(updateTimer, 1000); // Call updateTimer every second
-
-    // Reset card states (add your logic to reset the board here)
-    resetCards();
 }
 
-// Reset all cards (implement your logic to reset the board)
-function resetCards() {
-    const cards = document.querySelectorAll('.card'); // Assuming all cards have the class "card"
-    cards.forEach(card => {
-        card.classList.remove('matched', 'flipped'); // Remove matched or flipped states
-        card.addEventListener('click', handleCardClick); // Reattach event listeners
-    });
+// Fetch a new question from the API
+async function fetchNewQuestion() {
+    try {
+        const response = await fetch('../Controller/proxy.php'); // Call the proxy PHP file
+        if (!response.ok) throw new Error("Failed to fetch question");
+
+        const data = await response.json();
+        
+        // Update the image and solution
+        document.getElementById("question-image").src = data.question; // Assuming an <img id="question-image">
+        correctSolution = parseInt(data.solution); // Store solution for later comparison
+    } catch (error) {
+        console.error("Error fetching the question:", error);
+        endGame("An error occurred while fetching the question. Please try again later.");
+    }
 }
 
-// Handle card clicks
-function handleCardClick(event) {
-    if (gameEnded) return; // Don't process clicks if the game is over
+// Handle input and score
+function handleInput() {
+    if (gameEnded) return; // Don't process input if game is over
 
-    const card = event.target;
+    const inputField = document.getElementById("input");
+    const userInput = parseInt(inputField.value);
 
-    // Check if the card is already matched or flipped
-    if (card.classList.contains('matched') || card.classList.contains('flipped')) {
+    if (isNaN(userInput)) {
+        alert("Please enter a valid number!"); // Optionally keep alert for invalid input
         return;
     }
 
-    // Flip the card
-    card.classList.add('flipped');
+    const timeTaken = Math.floor((Date.now() - startTime) / 1000); // Calculate time taken for this question
 
-    // Check for a match (implement your match-checking logic here)
-    const flippedCards = document.querySelectorAll('.card.flipped');
-    if (flippedCards.length === 2) {
-        checkForMatch(flippedCards);
-    }
-}
-
-// Check for a match between two flipped cards
-function checkForMatch(flippedCards) {
-    const [card1, card2] = flippedCards;
-
-    // Check if the cards match (replace with your matching logic)
-    if (card1.dataset.value === card2.dataset.value) {
-        // Cards match
-        card1.classList.add('matched');
-        card2.classList.add('matched');
-        matchedPairs++;
-
-        const timeTaken = Math.floor((Date.now() - startTime) / 1000); // Calculate time taken
+    if (userInput === correctSolution) {
         const bonusScore = calculateBonusScore(timeTaken); // Get bonus score
         score += bonusScore; // Update total score
-        document.getElementById("score-value").textContent = score; // Update score display
+        console.log("Correct! Bonus Score:", bonusScore, "Total Score:", score); // Debugging log
 
         correctSound.play();
 
-        // Check if all pairs are matched
-        if (matchedPairs === totalPairs) {
-            endGame(`Congratulations! You matched all pairs. Your score is ${score}.`);
-        }
-    } else {
-        // Cards don't match
+        // Update the score display in the HTML
+        document.getElementById("score-value").textContent = score; // Correctly update the score on the screen
+
+        inputField.value = ''; // Reset input field
+        startGame(); // Fetch a new question and reset the timer
+    } 
+    else {
         wrongSound.play();
 
-        // Flip the cards back after a short delay
-        setTimeout(() => {
-            card1.classList.remove('flipped');
-            card2.classList.remove('flipped');
-        }, 1000);
+        endGame("Incorrect answer! Game over."); // Directly end the game without showing alert
     }
 }
 
 // Calculate bonus score based on time taken
 function calculateBonusScore(timeTaken) {
-    if (timeTaken <= 30) {
+    if (timeTaken <= 10) {
         return 5;
-    } else if (timeTaken <= 40) {
+    } else if (timeTaken <= 20) {
         return 4;
-    } else if (timeTaken <= 50) {
+    } else if (timeTaken <= 30) {
         return 3;
+    } else if (timeTaken <= 40) {
+        return 2;
     } else if (timeTaken <= 60) {
         return 1;
     } else {
-        return 0; // No score if time exceeds 60 seconds
+        endGame("Time's up! You took too long to answer.");
+        return 0;
     }
 }
 
@@ -135,7 +122,9 @@ function endGame(message) {
 
 // New Game Button Function
 function newGame() {
-    document.getElementById("game-over-screen").style.display = "none"; // Hide game-over screen
+    score = 0; // Reset score for new game
+    document.getElementById("score-value").textContent = score; // Update score display
+    document.getElementById("game-over-screen").style.display = "none"; // Hide game over screen
     document.getElementById("overlay").style.display = "none"; // Hide overlay
     startGame(); // Start a new game
 }
@@ -148,6 +137,7 @@ function quitGame() {
 // Initialize the game once the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", () => {
     startGame();
+    document.getElementById("submit-btn").addEventListener("click", handleInput);
     document.getElementById("new-game-btn").addEventListener("click", newGame); // New game button listener
     document.getElementById("quit-btn").addEventListener("click", quitGame); // Quit game button listener
 });

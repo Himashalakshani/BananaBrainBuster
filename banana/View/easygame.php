@@ -50,7 +50,7 @@ include 'navigation.php'
 
     <div id="overlay" style="display: none;"></div>
 
-    <script src="../Static Assets/js/bananagame.js"></script>
+    <script src="../Static Assets/js/easygame.js"></script>
 </body>
 
 </html>

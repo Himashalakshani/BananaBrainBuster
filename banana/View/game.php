@@ -41,7 +41,7 @@
                 <p>Answer a variety of maths questions in this engaging quiz!</p>
             </div>
             <div class="selector">
-                <button onclick="redirectToPage('banana.php')">go with this!</button>
+                <button onclick="redirectToPage('easygame.php')">go with this!</button>
             </div>
         </div>
 
