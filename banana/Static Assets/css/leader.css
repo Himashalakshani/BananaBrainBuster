@@ -6,15 +6,15 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    color: #333; /* A dark gray for better readability */
+    color: #333; 
 }
 
 h2 {
     text-align: center;
     margin-top: 80px;
     font-size: 60px;
-    color: #333; /* Dark gray for a softer contrast */
-    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.6); /* Subtle glow effect */
+    color: #333; 
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.6); 
 }
 
 .leaderboard {
@@ -22,22 +22,22 @@ h2 {
     margin: 50px auto;
     border-collapse: collapse;
     text-align: left;
-    background-color: rgba(255, 255, 255, 0.8); /* Light semi-transparent white background */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    background-color: rgba(255, 255, 255, 0.8); 
+    border-radius: 10px; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
 .leaderboard th {
-    background-color: rgba(0, 0, 0, 0.05); /* Subtle dark overlay for headers */
-    color: #333; /* Dark text */
+    background-color: rgba(0, 0, 0, 0.05); 
+    color: #333; 
     font-weight: bold;
     padding: 10px 20px;
-    border-bottom: 2px solid #ccc; /* Light gray divider */
+    border-bottom: 2px solid #ccc;
     text-align: left;
 }
 
 .leaderboard td {
-    color: #333; /* Dark text for better visibility */
+    color: #333;
     padding: 10px 20px;
-    border-bottom: 1px solid #ddd; /* Subtle row divider */
+    border-bottom: 1px solid #ddd;
 }

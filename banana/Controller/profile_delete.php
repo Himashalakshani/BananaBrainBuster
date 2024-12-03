@@ -16,7 +16,6 @@ $username = $_SESSION['username'];
 
 // Handle delete request
 if (isset($_POST['delete-btn'])) {
-    // Use a prepared statement to securely delete the user
     $stmt = $conn->prepare("DELETE FROM users WHERE name = ?");
     $stmt->bind_param("s", $username);
 

@@ -1,12 +1,12 @@
 <?php
-include 'db_connect.php';  // Include the database connection
+include 'db_connect.php'; 
 
 session_start();
 
 // Handle Sign In
 if (isset($_POST['signIn'])) {
     $email = $_POST['email'];
-    $password = $_POST['password'];  // The password entered by the user
+    $password = $_POST['password']; 
 
     // Ensure $conn is properly initialized before using it
     if ($conn) {
@@ -21,14 +21,14 @@ if (isset($_POST['signIn'])) {
                 // Password correct, set session variables
                 $_SESSION['id'] = $row['id'];  // Store user ID in session
                 $_SESSION['username'] = $row['name'];  // Store username in session
-                header("Location: ../View/home.php");  // Redirect to home page
+                header("Location: ../View/home.php");
                 exit();
             } else {
-                // Incorrect password
+                
                 $error_message = "Incorrect password.";
             }
         } else {
-            // User doesn't exist
+           
             $error_message = "Incorrect email or password.";
         }
 
@@ -46,7 +46,7 @@ if (isset($_POST['signIn'])) {
 if (isset($_POST['signUp'])) {
     $name = $_POST['name'];
     $email = $_POST['email'];
-    $password = $_POST['password'];  // The password entered by the user
+    $password = $_POST['password'];  
 
     // Ensure $conn is properly initialized before using it
     if ($conn) {

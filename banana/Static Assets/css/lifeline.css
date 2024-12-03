@@ -1,4 +1,4 @@
-/* Body styling */
+
 body {
     background-image: url(../assets/images/banana.jpeg);
     background-size: cover;
@@ -9,7 +9,6 @@ body {
     font-family: Arial, sans-serif;
 }
 
-/* Main game container */
 #game-container {
     max-width: 800px;
     max-height: 500px;
@@ -24,7 +23,6 @@ body {
     position: relative;
 }
 
-/* Game content section */
 #game-content {
     display: flex;
     flex-direction: column;
@@ -34,19 +32,16 @@ body {
     text-align: center;
 }
 
-/* Game title */
 #game-content h1 {
     margin-bottom: 0px;
 }
 
-/* Image styling */
 #image {
     max-width: 80%;
     height: auto;
     margin-top: 20px;
 }
 
-/* Input container */
 #input-container {
     display: flex;
     justify-content: center;
@@ -55,7 +50,6 @@ body {
     gap: 10px;
 }
 
-/* Input field styling */
 #input {
     padding: 15px;
     font-size: 18px;
@@ -65,7 +59,6 @@ body {
     width: 100px;
 }
 
-/* Button styling */
 .button {
     padding: 15px 20px;
     font-size: 18px;
@@ -82,18 +75,15 @@ body {
     transition: background-color 0.3s, transform 0.3s;
 }
 
-/* Button hover effect */
 .button:hover {
     background: linear-gradient(to bottom right, #66bb6a, #388e3c);
     transform: scale(1.05);
 }
 
-/* Button focus effect */
 .button:focus {
     outline: none;
 }
 
-/* Scoreboard container */
 #score-board {
     position: absolute;
     top: 20px;
@@ -104,14 +94,12 @@ body {
     z-index: 10;
 }
 
-/* Score styling */
 #score-value {
     font-size: 25px;
     font-weight: bold;
     color: #ad1616;
 }
 
-/* Timer container */
 #timer-container {
     position: absolute;
     top: 20px;
@@ -121,12 +109,10 @@ body {
     color: #ad1616;
 }
 
-/* Timer label styling */
 #timer-label {
     margin-right: 10px;
 }
 
-/* Submit button styling */
 #submit-btn {
     width: 100px;
     height: 40px;
@@ -137,12 +123,10 @@ body {
     cursor: pointer;
 }
 
-/* Submit button hover effect */
 #submit-btn:hover {
     background-color: #e07b31;
 }
 
-/* Game over screen styling */
 #game-over-screen {
     position: fixed;
     top: 50%;
@@ -155,7 +139,7 @@ body {
     z-index: 9999;
     text-align: center;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    width: 320px; /* Updated for consistent width with win screen */
+    width: 320px; 
 }
 
 #game-over-screen h2 {
@@ -170,18 +154,15 @@ body {
     font-weight: bold;
 }
 
-/* Game over button styling */
 #game-over-screen .button {
     margin-top: 20px;
     width: 200px;
 }
 
-/* First game over button margin */
 #game-over-screen .button:first-child {
     margin-right: 20px;
 }
 
-/* Life Line Pop-up Styling */
 #life-line-popup {
     position: fixed;
     top: 50%;
@@ -194,24 +175,22 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     text-align: center;
     z-index: 1000;
-    width: 320px; /* Same width as the game over screen */
+    width: 320px; 
 }
 
-/* Title styling in Life Line pop-up */
 #life-line-popup h2 {
     font-size: 32px;
     margin-bottom: 20px;
-    color: #28a745; /* Green for the Life Line pop-up */
+    color: #28a745; 
 }
 
 #life-line-popup .button-container {
     display: flex;
-    justify-content: space-between; /* Distribute buttons to the left and right */
-    width: 100%; /* Full width for the container */
-    padding-top: 20px; /* Optional padding for some space above the buttons */
+    justify-content: space-between;
+    width: 100%; 
+    padding-top: 20px;
 }
 
-/* Button styling for Life Line pop-up */
 #life-line-popup .button {
     padding: 15px 20px;
     font-size: 18px;
@@ -228,18 +207,15 @@ body {
     transition: background-color 0.3s, transform 0.3s;
 }
 
-/* Button hover effect for Life Line pop-up */
 #life-line-popup .button:hover {
     background: linear-gradient(to bottom right, #66bb6a, #388e3c);
     transform: scale(1.05);
 }
 
-/* Button focus effect */
 #life-line-popup .button:focus {
     outline: none;
 }
 
-/* Overlay effect for Life Line pop-up */
 #overlay {
     position: fixed;
     top: 0;
@@ -247,7 +223,7 @@ body {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    display: none; /* Initially hidden */
+    display: none; 
     z-index: 999;
     backdrop-filter: blur(8px);
 }

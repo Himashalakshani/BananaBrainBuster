@@ -206,8 +206,8 @@ function endGame() {
   });
 
   document.getElementById("new-game-btn").addEventListener("click", () => {
-    resetScore(); // Reset game state and score
-    window.location.href = "bananamatch.php";  // Redirect to the new BananaMatch game page
+    resetScore(); 
+    window.location.href = "bananamatch.php";  
   });
 }
 
@@ -239,13 +239,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // New Game button resets the score and redirects to a fresh BananaMatch game page
   document.getElementById("new-game-btn").addEventListener("click", () => {
-    resetScore(); // Reset score to 0
-    window.location.href = "bananamatch.php";  // Redirect to the new banana game page
+    resetScore(); 
+    window.location.href = "bananamatch.php"; 
   });
 
   // Quit button resets the score and navigates back to the home page
   document.getElementById("quit-btn").addEventListener("click", () => {
-    resetScore(); // Reset score to 0
-    window.location.href = "home.php"; // Redirect to home page
+    resetScore(); 
+    window.location.href = "home.php";
   });
 });

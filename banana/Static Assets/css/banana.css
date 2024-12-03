@@ -101,12 +101,12 @@ body {
     font-size: 20px;
     font-weight: bold;
     color: #ad1616;
-    z-index: 10;  /* Ensure score is above other elements */
+    z-index: 10;  
 }
 
 /* Score styling */
 #score-value {
-    font-size: 25px;  /* Make the score value larger */
+    font-size: 25px; 
     font-weight: bold;
     color: #ad1616;
 }

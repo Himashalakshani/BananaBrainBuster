@@ -12,10 +12,10 @@ const wrongSound = new Audio('/banana/banana/Static%20Assets/assets/audio/wrong.
 // Timer Update function
 function updateTimer() {
     const timeSpan = document.getElementById("time-value");
-    const timeTaken = Math.floor((Date.now() - startTime) / 1000); // Time in seconds
-    const minutes = Math.floor(timeTaken / 60); // Minutes
-    const seconds = timeTaken % 60; // Seconds
-    timeSpan.textContent = minutes + ":" + (seconds < 10 ? "0" : "") + seconds; // Display as minutes:seconds
+    const timeTaken = Math.floor((Date.now() - startTime) / 1000); 
+    const minutes = Math.floor(timeTaken / 60); 
+    const seconds = timeTaken % 60; 
+    timeSpan.textContent = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
 
     // End the game if the user takes more than 60 seconds
     if (timeTaken > 60) {
@@ -138,6 +138,6 @@ function quitGame() {
 document.addEventListener("DOMContentLoaded", () => {
     startGame();
     document.getElementById("submit-btn").addEventListener("click", handleInput);
-    document.getElementById("new-game-btn").addEventListener("click", newGame); // New game button listener
-    document.getElementById("quit-btn").addEventListener("click", quitGame); // Quit game button listener
+    document.getElementById("new-game-btn").addEventListener("click", newGame); 
+    document.getElementById("quit-btn").addEventListener("click", quitGame); 
 });

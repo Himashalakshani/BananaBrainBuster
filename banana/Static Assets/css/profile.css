@@ -1,8 +1,8 @@
 
 .container {
-    width: 90vw; /* Changed to take 90% of the viewport width */
+    width: 90vw; 
     max-width: 900px;
-    margin: 80px auto; /* Adjusted margin-top to move it down */
+    margin: 80px auto;
     padding: 40px;
     background-color: #ffffff00;
     border-radius: 40px;
@@ -22,8 +22,8 @@ body {
     align-items: center;
     justify-content: center;
     background-image: url('../assets/images/profile.jpg');
-    background-size: cover; /* Optional: Adjust as needed */
-    background-position: center; /* Optional: Adjust as needed */
+    background-size: cover; 
+    background-position: center; 
     background-repeat: no-repeat;
 }
 

@@ -29,7 +29,7 @@ if ($sql->execute()) {
     echo "Error: " . $conn->error;
 }
 
-$sql->close(); // Close the prepared statement
-$conn->close(); // Close the database connection
+$sql->close();
+$conn->close();
 
 ?>
