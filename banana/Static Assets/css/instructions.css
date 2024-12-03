@@ -1,0 +1,46 @@
+
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../assets/images/2.png');
+    background-size: cover; /* Optional: Adjust as needed */
+    background-position: center; /* Optional: Adjust as needed */
+    background-repeat: repeat;
+}
+
+h2{
+    color: rgb(255, 255, 255);
+    font-size: 40px;
+    text-align: center;
+   
+}
+
+.container {
+    max-width: 1400px;
+    margin:  auto;
+    padding: 55px;
+}
+
+.gallery {
+    display:inline;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 400fr));
+    grid-gap: 10px;
+    
+    
+}
+
+.gallery img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    padding: 5px;
+}
+
+.gallery img:hover {
+    transform: scale(1.05);
+}
