@@ -33,7 +33,7 @@ include 'navigation.php';
             <img id="question-image" src="https://www.sanfoh.com/uob/banana/data/t7474a643b918bf0eb2b310f5b7n18.png" alt="Banana Image">
 
             <div id="input-container">
-                <input id="input" type="number" step="1" min="0" max="9" placeholder="Enter your answer here" />
+                <input id="input" type="number" step="1" min="0" max="9" placeholder="Enter-" />
                 <button id="submit-btn" class="button">Submit</button>
             </div>
         </div>

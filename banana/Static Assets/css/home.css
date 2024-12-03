@@ -5,11 +5,16 @@
     background-position: center;
     background-repeat: no-repeat;
   }
+
+body {
+    margin-top: 100px; /* Adjust to account for the navigation bar and header */
+}
+
   
   .home .banner_title {
     font-size: 100px;
     color: #000;
-    padding-top: 100px;
+    padding-top: 50px;
     padding-left: 10px;
   }
   
@@ -30,4 +35,5 @@
   .home .layout_padding {
     padding-top: 90px; 
   }
+
   
